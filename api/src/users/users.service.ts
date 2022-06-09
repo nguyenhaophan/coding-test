@@ -2,6 +2,7 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
@@ -19,6 +20,20 @@ export class UsersService {
 
   async getAll(): Promise<UserDocument[]> {
     return await this.userModel.find()
+  }
+
+  async findOne(username: string): Promise<UserDocument | undefined> {
+    const foundUser = await this.userModel.findOne({ username: username })
+
+    if (!foundUser) {
+      throw new UnauthorizedException('Invalid username')
+    }
+
+    return foundUser
+  }
+
+  async findById(id: string): Promise<UserDocument | undefined> {
+    return await this.userModel.findById(id)
   }
 
   async registerUser(registerUserDto: RegisterUserDto): Promise<UserDocument> {
