@@ -7,7 +7,7 @@ import { ConfigModule } from '@nestjs/config'
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://localhost:27017/coding-test'),
-    ConfigModule.forRoot({ isGlobal: true, ignoreEnvFile: true }), // import .env file
+    ConfigModule.forRoot({ isGlobal: true }), // import .env file
     UsersModule,
     AuthModule,
   ],

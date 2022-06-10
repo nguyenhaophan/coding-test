@@ -13,6 +13,7 @@ import { LocalStrategy } from './local-strategy/local.strategy'
     forwardRef(() => UsersModule),
     PassportModule,
     JwtModule.registerAsync({
+      // read the .env before the JwtModule is instantiated
       useFactory: async (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET'),
       }),
