@@ -27,6 +27,12 @@ export class UsersController {
     return this.usersService.getAll()
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  getProfile(@Request() req: any) {
+    return req.user
+  }
+
   @UseGuards(LocalAuthGuard)
   @Post('login')
   loginUser(@Request() req: any) {
