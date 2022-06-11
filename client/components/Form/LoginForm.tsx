@@ -5,6 +5,8 @@ import * as yup from 'yup'
 
 import { instance } from '../../axios/instance'
 import { request } from '../../axios/requests'
+import { useAppDispatch } from '../../hooks/hooks'
+import { loginSuccess } from '../../redux/features/authSlice'
 
 type FormData = {
   username: string
@@ -19,6 +21,7 @@ const schema = yup
   .required()
 
 export default function LoginForm() {
+  const dispatch = useAppDispatch()
   const {
     control,
     handleSubmit,
@@ -39,15 +42,29 @@ export default function LoginForm() {
         username: data.username,
         password: data.password,
       })
-      // console.log(res.data)
+
+      if (res.status === 201) {
+        const { user, access_token } = res.data
+
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('access_token', access_token)
+        }
+        dispatch(loginSuccess(user))
+      }
     } catch (e) {
       const error = e as Error
+      if (error.message) {
+        setError('username', { message: 'Invalid username or password' })
+      }
 
-      if (error.message.includes('username'))
-        setError('username', { message: error.message })
+      if (error.message) {
+        setError('password', { message: 'Invalid username or password' })
+      }
+      // if (error.message.includes('username'))
+      //   setError('username', { message: error.message })
 
-      if (error.message.includes('password'))
-        setError('password', { message: error.message })
+      // if (error.message.includes('password'))
+      //   setError('password', { message: error.message })
     }
   }
 
