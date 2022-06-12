@@ -45,6 +45,16 @@ export class UsersService {
       throw new ConflictException('Username existed')
     }
 
+    if (registerUserDto.email) {
+      const existedEmail = await this.userModel.findOne({
+        email: registerUserDto.email,
+      })
+
+      if (existedEmail) {
+        throw new ConflictException('Email existed')
+      }
+    }
+
     // Hasing password with bcrypt
     const salt = await bcrypt.genSalt(10)
     registerUserDto.password = await bcrypt.hash(registerUserDto.password, salt)

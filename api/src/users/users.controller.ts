@@ -40,8 +40,9 @@ export class UsersController {
   }
 
   @Post('register')
-  registerUser(@Body() registerUserDto: RegisterUserDto) {
-    return this.usersService.registerUser(registerUserDto)
+  async registerUser(@Body() registerUserDto: RegisterUserDto) {
+    const registerdUser = await this.usersService.registerUser(registerUserDto)
+    return this.authService.login(registerdUser)
   }
 
   @UseGuards(JwtAuthGuard)
