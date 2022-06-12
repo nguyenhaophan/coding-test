@@ -7,6 +7,8 @@ import { getProfile } from '../redux/features/authSlice'
 import { useAppDispatch, useAppSelector } from '../hooks/hooks'
 import LogoutBtn from '../components/Button/LogoutBtn'
 import { Data } from '../types/data'
+import SearchBar from '../components/SearchBar'
+import { Stack } from '@mui/material'
 
 const Home: NextPage = () => {
   const dispatch = useAppDispatch()
@@ -33,10 +35,13 @@ const Home: NextPage = () => {
   }, [dispatch, isAuthenticated, router])
 
   return (
-    <>
-      <div>Welcome {user?.username}</div>
-      <LogoutBtn />
-    </>
+    <Stack gap={2}>
+      <Stack direction="row" gap={2}>
+        <div>Welcome {user?.username}</div>
+        <LogoutBtn />
+      </Stack>
+      {data && <SearchBar data={data} />}
+    </Stack>
   )
 }
 
