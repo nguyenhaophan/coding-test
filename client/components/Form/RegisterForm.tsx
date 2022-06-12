@@ -1,6 +1,7 @@
 import { Button, TextField, Typography } from '@mui/material'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 import * as yup from 'yup'
 
@@ -9,39 +10,44 @@ import { request } from '../../axios/requests'
 import { useAppDispatch } from '../../hooks/hooks'
 import { loginSuccess } from '../../redux/features/authSlice'
 
-type LoginForm = {
+type RegisterForm = {
   username: string
   password: string
+  email?: string
 }
 
 const schema = yup
   .object({
     username: yup.string().required().min(4),
-    password: yup.string().required(),
+    password: yup.string().required().min(4).max(30),
+    email: yup.string().email().optional(),
   })
   .required()
 
-export default function LoginForm() {
+export default function RegisterForm() {
+  const router = useRouter()
   const dispatch = useAppDispatch()
   const {
     control,
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<LoginForm>({
+  } = useForm<RegisterForm>({
     mode: 'onBlur',
     defaultValues: {
       username: '',
       password: '',
+      email: '',
     },
     resolver: yupResolver(schema),
   })
 
-  async function onSubmit(data: LoginForm) {
+  async function onSubmit(data: RegisterForm) {
     try {
-      const res = await instance.post(request('users', 'login'), {
+      const res = await instance.post(request('users', 'register'), {
         username: data.username,
         password: data.password,
+        email: data.email,
       })
 
       if (res.status === 201) {
@@ -51,14 +57,17 @@ export default function LoginForm() {
           localStorage.setItem('access_token', access_token)
         }
         dispatch(loginSuccess(user))
+        router.push('/')
       }
     } catch (error: any) {
       const message = error.response?.data.message
 
-      if (message.includes('username'))
+      if (message.toLowerCase().includes('username')) {
         setError('username', { message: message })
-      if (message.includes('password'))
-        setError('password', { message: message })
+      }
+      if (message.toLowerCase().includes('email')) {
+        setError('email', { message: message })
+      }
     }
   }
 
@@ -93,12 +102,27 @@ export default function LoginForm() {
           />
         )}
       />
+      <Typography>{'Email: (optional)'}</Typography>
+      <Controller
+        name="email"
+        control={control}
+        render={({ field }) => (
+          <TextField
+            {...field}
+            error={Boolean(errors.email)}
+            helperText={errors.email?.message}
+            type="email"
+            // fullWidth
+            size="small"
+          />
+        )}
+      />
       <Button type="submit" variant="contained" color="success">
-        Login
+        Register
       </Button>
-      <Link href="/register">
+      <Link href="/">
         <Typography>
-          <a>Sign up</a>
+          <a>Home</a>
         </Typography>
       </Link>
     </form>

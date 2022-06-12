@@ -9,18 +9,17 @@ if (typeof window !== 'undefined') {
   }
 }
 
-const preloadedState = {
-  auth: {
-    isAuthenticated: hasAccessToken,
-    user: null,
-  },
-}
-
 export const store = configureStore({
   reducer: {
     auth: authReducer,
   },
-  preloadedState,
+  preloadedState: {
+    auth: {
+      isAuthenticated: hasAccessToken,
+      user: null,
+      status: 'idle',
+    },
+  },
 })
 
 export type RootState = ReturnType<typeof store.getState>

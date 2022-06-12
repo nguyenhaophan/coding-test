@@ -8,11 +8,13 @@ import { RootState } from '../store'
 type InitialState = {
   isAuthenticated: boolean
   user: User | null
+  status: 'success' | 'error' | 'loading' | 'idle'
   error?: Error
 }
 
 const initialState: InitialState = {
   isAuthenticated: false,
+  status: 'idle',
   user: null,
 }
 
@@ -37,9 +39,11 @@ export const authSlice = createSlice({
     loginSuccess: (state, action: PayloadAction<User>) => {
       state.isAuthenticated = true
       state.user = action.payload
+      state.status = 'success'
     },
     loginFail: (state, action: PayloadAction<Error>) => {
       state.error = action.payload
+      state.status = 'error'
     },
     logout: (state) => {
       state.isAuthenticated = false
@@ -47,9 +51,14 @@ export const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getProfile.fulfilled, (state, action) => {
-      state.user = action.payload
-    })
+    builder
+      .addCase(getProfile.pending, (state, action) => {
+        state.status = 'loading'
+      })
+      .addCase(getProfile.fulfilled, (state, action) => {
+        state.user = action.payload
+        state.status = 'success'
+      })
   },
 })
 
