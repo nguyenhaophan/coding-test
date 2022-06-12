@@ -1,6 +1,6 @@
 type RouteTypes = 'users'
 
-type UrlType = 'all' | 'login' | 'register' | 'delete'
+type UrlType = 'all' | 'login' | 'register' | 'delete' | 'profile'
 
 type IdType = string
 

@@ -7,6 +7,7 @@ import { instance } from '../../axios/instance'
 import { request } from '../../axios/requests'
 import { useAppDispatch } from '../../hooks/hooks'
 import { loginSuccess } from '../../redux/features/authSlice'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 
 type FormData = {
   username: string
@@ -51,20 +52,13 @@ export default function LoginForm() {
         }
         dispatch(loginSuccess(user))
       }
-    } catch (e) {
-      const error = e as Error
-      if (error.message) {
-        setError('username', { message: 'Invalid username or password' })
-      }
+    } catch (error: any) {
+      const message = error.response?.data.message
 
-      if (error.message) {
-        setError('password', { message: 'Invalid username or password' })
-      }
-      // if (error.message.includes('username'))
-      //   setError('username', { message: error.message })
-
-      // if (error.message.includes('password'))
-      //   setError('password', { message: error.message })
+      if (message.includes('username'))
+        setError('username', { message: message })
+      if (message.includes('password'))
+        setError('password', { message: message })
     }
   }
 
