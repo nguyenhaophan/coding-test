@@ -1,4 +1,4 @@
-type Resource = {
+export type Resource = {
   resourceId: string
   name: string
   impacts: [
@@ -9,7 +9,7 @@ type Resource = {
   ]
 }
 
-type Formula = {
+export type Formula = {
   calculationRuleId: string
   name: string
   multiplyFormula: string[]
