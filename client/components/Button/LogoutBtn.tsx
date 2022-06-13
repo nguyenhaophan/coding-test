@@ -9,6 +9,7 @@ export default function LogoutBtn() {
 
   function handleLogout() {
     dispatch(logout())
+    localStorage.clear()
   }
 
   return (
