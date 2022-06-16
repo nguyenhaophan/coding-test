@@ -35,22 +35,22 @@ export default function MyTable({ chosenRes }: TableProps) {
   // const cloned = cloneDeep(chosenRes)
 
   const dispatch = useAppDispatch()
-  // const [toSubmit, setToSubmit] = useState<ToSubmit[]>([])
+  const [toSubmit, setToSubmit] = useState<ToSubmit[]>([])
   const { handleSubmit, control } = useForm<Resource[]>()
   // console.log(cloned)
   function onSubmit() {
-    // if (toSubmit.length) {
-    //   console.log(toSubmit)
-    // }
+    if (toSubmit.length) {
+      console.log(toSubmit)
+    }
   }
 
-  // function handleOnChange(res: Resource, event: any) {
-  //   const newValue = {
-  //     resourceId: res.resourceId,
-  //     quantity: event.target.value,
-  //   }
-  //   setToSubmit([...toSubmit, newValue])
-  // }
+  function handleOnChange(res: Resource, event: any) {
+    const newValue = {
+      resourceId: res.resourceId,
+      quantity: event.target.value,
+    }
+    setToSubmit([...toSubmit, newValue])
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -79,7 +79,7 @@ export default function MyTable({ chosenRes }: TableProps) {
                       //     }),
                       //   )
                       // }
-                      // onChange={(event) => handleOnChange(elem, event)}
+                      onChange={(event) => handleOnChange(elem, event)}
                     />
                   </TableCell>
 
