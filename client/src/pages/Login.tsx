@@ -1,3 +1,4 @@
+import { Stack } from '@mui/material'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -14,5 +15,9 @@ export default function Login() {
     }
   }, [isAuthenticated, navigate])
 
-  return <LoginForm />
+  return (
+    <Stack alignItems="center" pt={10}>
+      <LoginForm />
+    </Stack>
+  )
 }

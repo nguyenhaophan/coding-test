@@ -13,6 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import MuiTableBody from '@mui/material/TableBody'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
 import { ChangeEvent, useState } from 'react'
+import cloneDeep from 'lodash/cloneDeep'
 
 import { Resource, ResToSubmit } from '../../types/data'
 import { useAppDispatch } from '../../hooks/hooks'
@@ -21,35 +22,35 @@ import TableHead from './TableHead'
 
 type TableProps = {
   chosenRes: Resource[]
+  // onQuantityChange: (resourceId: string, quantity: number) => void
 }
 
-type FormData = {
-  resource?: Resource
-  quantity: number
-}
-
-type ToSubmitType = {
-  product: Resource
+type ToSubmit = {
   quantity: number
 }
 
 export default function MyTable({ chosenRes }: TableProps) {
+  // clone the obj to later add quantity
+  // chosenRen is a props => cant add property
+  // const cloned = cloneDeep(chosenRes)
+
   const dispatch = useAppDispatch()
-  const [toSubmit, setToSubmit] = useState<ToSubmitType[]>([])
-  const { handleSubmit } = useForm()
-
+  // const [toSubmit, setToSubmit] = useState<ToSubmit[]>([])
+  const { handleSubmit, control } = useForm<Resource[]>()
+  // console.log(cloned)
   function onSubmit() {
-    console.log('Form', toSubmit)
+    // if (toSubmit.length) {
+    //   console.log(toSubmit)
+    // }
   }
 
-  function handleOnChange(elem: Resource, event: any) {
-    const obj = {
-      product: elem,
-      quantity: event.target.value,
-    }
-
-    setToSubmit([...toSubmit, obj])
-  }
+  // function handleOnChange(res: Resource, event: any) {
+  //   const newValue = {
+  //     resourceId: res.resourceId,
+  //     quantity: event.target.value,
+  //   }
+  //   setToSubmit([...toSubmit, newValue])
+  // }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -58,19 +59,32 @@ export default function MyTable({ chosenRes }: TableProps) {
           <Table>
             <TableHead />
             <MuiTableBody>
-              {chosenRes.map((elem) => (
+              {chosenRes.map((elem, index) => (
                 <TableRow key={elem.resourceId}>
                   <TableCell>{elem.name}</TableCell>
+
                   <TableCell>
                     <TextField
+                      value={elem.quantity}
+                      InputProps={{ inputProps: { min: 1 } }}
                       type="number"
                       size="small"
                       sx={{ width: '80px' }}
-                      onChange={(event) => handleOnChange(elem, event)}
+                      // onChange={(event) =>
+                      //   dispatch(
+                      //     addQuan({
+                      //       index: index,
+                      //       selected: elem,
+                      //       quantity: Number(event.target.value),
+                      //     }),
+                      //   )
+                      // }
+                      // onChange={(event) => handleOnChange(elem, event)}
                     />
                   </TableCell>
-                  <TableCell>number</TableCell>
-                  <TableCell>number</TableCell>
+
+                  <TableCell>x</TableCell>
+                  <TableCell>x</TableCell>
                   <TableCell>
                     <IconButton
                       title="delete"

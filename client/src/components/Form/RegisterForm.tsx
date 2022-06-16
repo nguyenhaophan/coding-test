@@ -1,4 +1,4 @@
-import { Button, TextField, Typography } from '@mui/material'
+import { Button, Stack, TextField, Typography } from '@mui/material'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Link, useNavigate } from 'react-router-dom'
@@ -70,53 +70,55 @@ export default function RegisterForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Typography>Username</Typography>
-      <Controller
-        name="username"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            error={Boolean(errors.username)}
-            helperText={errors.username?.message}
-            // fullWidth
-            size="small"
-          />
-        )}
-      />
-      <Typography>Password</Typography>
-      <Controller
-        name="password"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            error={Boolean(errors.password)}
-            helperText={errors.password?.message}
-            type="password"
-            // fullWidth
-            size="small"
-          />
-        )}
-      />
-      <Typography>{'Email: (optional)'}</Typography>
-      <Controller
-        name="email"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            error={Boolean(errors.email)}
-            helperText={errors.email?.message}
-            type="email"
-            // fullWidth
-            size="small"
-          />
-        )}
-      />
-      <Button type="submit" variant="contained" color="success">
-        Register
-      </Button>
+      <Stack spacing={1}>
+        <Typography>Username</Typography>
+        <Controller
+          name="username"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              error={Boolean(errors.username)}
+              helperText={errors.username?.message}
+              // fullWidth
+              size="small"
+            />
+          )}
+        />
+        <Typography>Password</Typography>
+        <Controller
+          name="password"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              error={Boolean(errors.password)}
+              helperText={errors.password?.message}
+              type="password"
+              // fullWidth
+              size="small"
+            />
+          )}
+        />
+        <Typography>{'Email: (optional)'}</Typography>
+        <Controller
+          name="email"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              error={Boolean(errors.email)}
+              helperText={errors.email?.message}
+              type="email"
+              // fullWidth
+              size="small"
+            />
+          )}
+        />
+        <Button type="submit" variant="contained" color="success">
+          Register
+        </Button>
+      </Stack>
       <Link to="/" title="Home">
         <Typography>Home</Typography>
       </Link>

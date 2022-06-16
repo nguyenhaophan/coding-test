@@ -36,7 +36,13 @@ export default function Home() {
 
   return (
     <Stack gap={2}>
-      <Stack direction="row" gap={2}>
+      <Stack
+        direction="row"
+        gap={2}
+        justifyContent="center"
+        alignItems="center"
+        p="50px 0"
+      >
         <div>Welcome {user?.username}</div>
         <LogoutBtn />
       </Stack>

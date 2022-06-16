@@ -1,4 +1,4 @@
-import { Button, TextField, Typography } from '@mui/material'
+import { Button, Stack, TextField, Typography } from '@mui/material'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Link } from 'react-router-dom'
@@ -62,38 +62,40 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Typography>Username</Typography>
-      <Controller
-        name="username"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            error={Boolean(errors.username)}
-            helperText={errors.username?.message}
-            // fullWidth
-            size="small"
-          />
-        )}
-      />
-      <Typography>Password</Typography>
-      <Controller
-        name="password"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            error={Boolean(errors.password)}
-            helperText={errors.password?.message}
-            type="password"
-            // fullWidth
-            size="small"
-          />
-        )}
-      />
-      <Button type="submit" variant="contained" color="success">
-        Login
-      </Button>
+      <Stack spacing={1}>
+        <Typography>Username</Typography>
+        <Controller
+          name="username"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              error={Boolean(errors.username)}
+              helperText={errors.username?.message}
+              // fullWidth
+              size="small"
+            />
+          )}
+        />
+        <Typography>Password</Typography>
+        <Controller
+          name="password"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              error={Boolean(errors.password)}
+              helperText={errors.password?.message}
+              type="password"
+              // fullWidth
+              size="small"
+            />
+          )}
+        />
+        <Button type="submit" variant="contained" color="success">
+          Login
+        </Button>
+      </Stack>
       <Link to="/register" title="Sign up">
         <Typography>Sign up</Typography>
       </Link>

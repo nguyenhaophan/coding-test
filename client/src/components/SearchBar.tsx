@@ -1,14 +1,15 @@
-import { SyntheticEvent } from 'react'
+import { SyntheticEvent, useState } from 'react'
 import TextField from '@mui/material/TextField'
 import Stack from '@mui/material/Stack'
 import Autocomplete from '@mui/material/Autocomplete'
+import { Controller, useFieldArray, useForm } from 'react-hook-form'
+import { Button } from '@mui/material'
+import cloneDeep from 'lodash/cloneDeep'
 
 import { Data, Resource } from '../types/data'
 import { useAppDispatch, useAppSelector } from '../hooks/hooks'
 import { addRes } from '../redux/features/resSlice'
 import MyTable from './Table/MyTable'
-import { Controller, useForm } from 'react-hook-form'
-import { Button } from '@mui/material'
 
 type SearchBarProps = {
   data: Data
@@ -23,15 +24,27 @@ export default function SearchBar({ data }: SearchBarProps) {
   const { chosenRes } = useAppSelector((state) => state.res)
 
   console.log(chosenRes)
+
   function handleOnChange(event: SyntheticEvent, newValue: Resource | null) {
     event.preventDefault()
 
     if (newValue) {
+      // const cloned = cloneDeep(newValue)
+
+      // console.log('clone new value', newValue)
       dispatch(addRes(newValue))
     }
   }
 
-  const { control, handleSubmit } = useForm<FormData>({
+  // function onQuantityChange(resourceId: string, quantity: number) {
+  //   chosenRes.forEach((elem) => {
+  //     if (elem.resourceId === resourceId) {
+  //       elem.quantity = quantity
+  //     }
+  //   })
+  // }
+
+  const { control, handleSubmit, register } = useForm<FormData>({
     defaultValues: {
       calculation: [],
     },
@@ -50,7 +63,7 @@ export default function SearchBar({ data }: SearchBarProps) {
           render={({ field: { onChange } }) => (
             <Autocomplete
               // value={null}
-              // multiple
+              multiple
               id="combo-box"
               options={data.resources}
               getOptionLabel={(option) => option.name}
@@ -58,7 +71,7 @@ export default function SearchBar({ data }: SearchBarProps) {
                 if (data) {
                   onChange(data)
                   console.log(data)
-                  dispatch(addRes(data))
+                  // dispatch(addR
                 }
               }}
               sx={{ width: 300 }}
@@ -73,6 +86,7 @@ export default function SearchBar({ data }: SearchBarProps) {
           )}
         /> */}
       <Autocomplete
+        // multiple
         value={null}
         id="combo-box"
         options={data.resources}
@@ -88,10 +102,11 @@ export default function SearchBar({ data }: SearchBarProps) {
         )}
       />
       <MyTable chosenRes={chosenRes} />
+      {/* <MyTable chosenRes={chosenRes} onQuantityChange={onQuantityChange} /> */}
       {/* <Button type="submit" variant="contained" color="success">
           Calculate
-        </Button>
-      </form> */}
+        </Button> */}
+      {/* </form> */}
     </Stack>
   )
 }

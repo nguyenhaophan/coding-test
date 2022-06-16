@@ -7,6 +7,7 @@ export type Resource = {
       impactAP_kgSO2e: number
     },
   ]
+  quantity: number
 }
 
 export type Formula = {
