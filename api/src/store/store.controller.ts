@@ -1,21 +1,20 @@
-import { Controller, Get, Response, StreamableFile } from '@nestjs/common'
-import { createReadStream } from 'fs'
-import { join } from 'path'
+import { Controller, Get, UseGuards } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 
+import { ConfigDataType } from 'config/config.type'
+import { JwtAuthGuard } from 'src/auth/jwt-strategy/jwt-auth.guard'
 import { StoreService } from './store.service'
 
 @Controller('store')
 export class StoreController {
-  constructor(private readonly storeService: StoreService) {}
+  constructor(
+    private readonly storeService: StoreService,
+    private readonly configService: ConfigService,
+  ) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get('all')
-  getAll(@Response({ passthrough: true }) res): StreamableFile {
-    const file = createReadStream(join(process.cwd(), './data/db.json'))
-    res.set({
-      'Content-Type': 'application/json',
-      'Content-Disposition': 'attachment; filename="db.json"',
-    })
-
-    return new StreamableFile(file)
+  getAll() {
+    return this.configService.get<ConfigDataType>('configData')
   }
 }
