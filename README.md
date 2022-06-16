@@ -3,10 +3,12 @@ To run this, you need to have mongoDB installed in your local machine
 
 # Installing
 Installing NPM modules on api directory
+
     cd api
     npm install
 
 Installing NPM modules on client directory
+
     cd client 
     npm install
 
