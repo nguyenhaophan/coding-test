@@ -3,6 +3,7 @@ To run this, you need to have mongoDB installed in your local machine
 
 # Installing
 Installing NPM modules on both client and server folders
+
 Execute these commands from the project directory
     cd client 
     npm install
