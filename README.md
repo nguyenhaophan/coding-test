@@ -8,6 +8,7 @@ Execute these commands from the project directory
     cd client 
     npm install
 
+
     cd api 
     npm install
 
