@@ -2,14 +2,12 @@
 To run this, you need to have mongoDB installed in your local machine
 
 # Installing
-Installing NPM modules on both client and server folders
-
-Execute these commands from the project directory
-    cd client 
+Installing NPM modules on api directory
+    cd api
     npm install
 
-
-    cd api 
+Installing NPM modules on client directory
+    cd client 
     npm install
 
 # Environment Variables
