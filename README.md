@@ -6,8 +6,7 @@ Run these commands from project directory to install NPM modules
 
     cd api
     npm install
-
-
+#
     cd client 
     npm install
 
